@@ -14,8 +14,8 @@ profiles/
 docs/
 deployments/
 # files
-.env
-*.env
+# .env
+# *.env
 *.log
 *.tsbuildinfo
 coverage.json
