@@ -42,10 +42,10 @@ const getWalletData = () => async (user_id) => {
 
 const getWallet =
   ({ config }) =>
-  index => {
+  async (user_id) => {
     const provider = new ethers.providers.AlchemyProvider(config.network, process.env.ALCHEMY_API_KEY);
-
-    return new ethers.Wallet(accounts[index - 1].privateKey, provider);
+    const user_wallet = await findWalletByUserId(user_id)
+    return new ethers.Wallet(user_wallet.private_key, provider);
   };
 
 module.exports = ({ config }) => ({

@@ -5,7 +5,7 @@ const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
 
-const deposits_in_sc = {};
+const deposits_in_sc = {}; // TODO: persistir depositos y pagos de ser necesario
 const payments_to_users = {};
 
 const deposit =
@@ -82,10 +82,7 @@ const transfer =
     );
     console.log("Deposit made in smart contract. Now sending payment to receiver")
     const basicPayments_system = await getContract(config, system_wallet);
-    console.log("receiver address --> " + receiverWallet.address)
-    console.log("receiver address2 ---> " + ethers.utils.getAddress(receiverWallet.address))
     const payment_to_receiver_tx = await basicPayments_system.sendPayment(ethers.utils.getAddress(receiverWallet.address), await ethers.utils.parseEther(amountToSend).toHexString());
-    console.log("hola3")
     payment_to_receiver_tx.wait(1).then(
       receipt => {
         console.log("Transaction mined");

@@ -3,10 +3,10 @@ function schema() {
       params: {
         type: "object",
         properties: {
-          senderId: {
+          senderUserId: {
             type: "integer",
           },
-          receiverId: {
+          receiverUserId: {
             type: "integer",
           },
           amountInEthers: {
@@ -14,13 +14,15 @@ function schema() {
           },
         },
       },
-      required: ["senderId", "receiverId", "amountInEthers"],
+      required: ["senderUserId", "receiverUserId", "amountInEthers"],
     };
   }
   
   function handler({ contractInteraction, walletService }) {
     return async function (req) {
-      return contractInteraction.transfer(walletService.getWallet(req.body.senderId), walletService.getWallet(req.body.receiverId), walletService.getDeployerWallet(), req.body.amountInEthers);
+      const sender_wallet = await walletService.getWallet(req.body.senderUserId)
+      const receiver_wallet = await walletService.getWallet(req.body.receiverUserId)
+      return contractInteraction.transfer(sender_wallet, receiver_wallet, walletService.getDeployerWallet(), req.body.amountInEthers);
     };
   }
   
