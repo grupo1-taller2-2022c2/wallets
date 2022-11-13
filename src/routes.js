@@ -8,7 +8,7 @@ const createTransfer = require("./handlers/createTransferHandler");
 function getWalletDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/wallet/:id",
+    url: "/wallet/:user_id",
     schema: getWalletData.schema(config),
     handler: getWalletData.handler({ config, ...services }),
   };

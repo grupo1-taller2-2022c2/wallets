@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const { findWalletByUserId, insertWallet } = require("../cruds/walletCruds");
+const { findWalletByUserId, insertWallet, findAllWallets } = require("../cruds/walletCruds");
 const WalletAlreadyExistsForUser = require("./exceptions");
 const accounts = [];
 
@@ -32,12 +32,12 @@ const createWallet =
     return created_wallet
   };
 
-const getWalletsData = () => () => {
-  return accounts;
+const getWalletsData = () => async () => {
+  return await findAllWallets();
 };
 
-const getWalletData = () => index => {
-  return accounts[index - 1];
+const getWalletData = () => async (user_id) => {
+  return await findWalletByUserId(user_id);
 };
 
 const getWallet =
