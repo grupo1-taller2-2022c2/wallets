@@ -1,4 +1,5 @@
 const ethers = require("ethers");
+const _config = require("../config")
 const { findWalletByUserId, insertWallet, findAllWallets } = require("../cruds/walletCruds");
 const WalletAlreadyExistsForUser = require("./exceptions");
 const accounts = [];
@@ -33,11 +34,18 @@ const createWallet =
   };
 
 const getWalletsData = () => async () => {
-  return await findAllWallets();
+  let users_wallets  = await findAllWallets();
+  for (let user_wallet of users_wallets){
+    user_wallet["balance"] = await getBalance(user_wallet.user_id)
+  }
+  return users_wallets
 };
 
 const getWalletData = () => async (user_id) => {
-  return await findWalletByUserId(user_id);
+  let user_wallet = await findWalletByUserId(user_id);
+  // A lo que viene de la DB le agregamos el balance
+  user_wallet["balance"] = await getBalance(user_id)
+  return user_wallet
 };
 
 const getWallet =
@@ -47,6 +55,15 @@ const getWallet =
     const user_wallet = await findWalletByUserId(user_id)
     return new ethers.Wallet(user_wallet.private_key, provider);
   };
+
+const getBalance = 
+  async (user_id) => {
+    const user_wallet = await findWalletByUserId(user_id)
+    const provider = new ethers.providers.AlchemyProvider(_config.network, process.env.ALCHEMY_API_KEY);
+    const balanceInWei = await provider.getBalance(user_wallet.address)
+    const balanceInEth = ethers.utils.formatEther(balanceInWei)
+    return balanceInEth
+};
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),
