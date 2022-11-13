@@ -4,11 +4,12 @@ const createWallet = require("./handlers/createWalletHandler");
 const createDeposit = require("./handlers/createDepositHandler");
 const getDeposit = require("./handlers/getDepositHandler");
 const createTransfer = require("./handlers/createTransferHandler");
+const withdrawFundsFromWallet = require("./handlers/withdrawFundsFromWalletHandler")
 
 function getWalletDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/wallet/:user_id",
+    url: "/wallets/:user_id",
     schema: getWalletData.schema(config),
     handler: getWalletData.handler({ config, ...services }),
   };
@@ -17,7 +18,7 @@ function getWalletDataRoute({ services, config }) {
 function getWalletsDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/wallet",
+    url: "/wallets",
     schema: getWalletsData.schema(config),
     handler: getWalletsData.handler({ config, ...services }),
   };
@@ -26,16 +27,26 @@ function getWalletsDataRoute({ services, config }) {
 function createWalletRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/wallet",
+    url: "/wallets",
     schema: createWallet.schema(config),
     handler: createWallet.handler({ config, ...services }),
   };
 }
 
+function withdrawFundsFromWalletRoute({ services, config }) {
+  return {
+    method: "POST",
+    url: "/wallets/:user_id/withdrawals",
+    schema: withdrawFundsFromWallet.schema(config),
+    handler: withdrawFundsFromWallet.handler({ config, ...services }),
+  };
+}
+
+
 function createDepositRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/deposit",
+    url: "/deposits",
     schema: createDeposit.schema(config),
     handler: createDeposit.handler({ config, ...services }),
   };
@@ -44,7 +55,7 @@ function createDepositRoute({ services, config }) {
 function getDepositRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/deposit/:txHash",
+    url: "/deposits/:txHash",
     schema: getDeposit.schema(config),
     handler: getDeposit.handler({ config, ...services }),
   };
@@ -59,4 +70,4 @@ function createTransferRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute, createTransferRoute];
+module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute, createTransferRoute, withdrawFundsFromWalletRoute];

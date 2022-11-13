@@ -3,26 +3,26 @@ function schema() {
       params: {
         type: "object",
         properties: {
-          senderUserId: {
+          passenger_user_id: {
             type: "integer",
           },
-          receiverUserId: {
+          driver_user_id: {
             type: "integer",
           },
-          amountInEthers: {
+          amount_in_ethers: {
             type: "string",
           },
         },
       },
-      required: ["senderUserId", "receiverUserId", "amountInEthers"],
+      required: ["passenger_user_id", "driver_user_id", "amount_in_ethers"],
     };
   }
   
   function handler({ contractInteraction, walletService }) {
     return async function (req) {
-      const sender_wallet = await walletService.getWallet(req.body.senderUserId)
-      const receiver_wallet = await walletService.getWallet(req.body.receiverUserId)
-      return contractInteraction.transfer(sender_wallet, receiver_wallet, walletService.getDeployerWallet(), req.body.amountInEthers);
+      const sender_wallet = await walletService.getWallet(req.body.passenger_user_id)
+      const receiver_wallet = await walletService.getWallet(req.body.driver_user_id)
+      return contractInteraction.transfer(sender_wallet, receiver_wallet.address, walletService.getDeployerWallet(), req.body.amount_in_ethers);
     };
   }
   

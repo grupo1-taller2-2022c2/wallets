@@ -50,12 +50,12 @@ const getDepositReceipt =
 
 const transfer =
   ({ config }) =>
-  async (senderWallet, receiverWallet, system_wallet, amountToSend) => {
+  async (senderWallet, receiverWalletAddress, system_wallet, amountToSend) => {
     const basicPayments_sender = await getContract(config, senderWallet);
     const deposit_to_sc_tx = await basicPayments_sender.deposit({
       value: await ethers.utils.parseEther(amountToSend).toHexString(),
     });
-    console.log("Making deposit in sender's smart contract")
+    console.log("Making deposit in smart contract -being sender the owner-")
     await deposit_to_sc_tx.wait(1).then(
       receipt => {
         console.log("Transaction mined");
@@ -80,9 +80,9 @@ const transfer =
         console.error(message);
       },
     );
-    console.log("Deposit made in smart contract. Now sending payment to receiver")
+    console.log("Deposit made in smart contract. Now sending payment from smart contract -being the system the owner- to receiver")
     const basicPayments_system = await getContract(config, system_wallet);
-    const payment_to_receiver_tx = await basicPayments_system.sendPayment(ethers.utils.getAddress(receiverWallet.address), await ethers.utils.parseEther(amountToSend).toHexString());
+    const payment_to_receiver_tx = await basicPayments_system.sendPayment(ethers.utils.getAddress(receiverWalletAddress), await ethers.utils.parseEther(amountToSend).toHexString());
     payment_to_receiver_tx.wait(1).then(
       receipt => {
         console.log("Transaction mined");
