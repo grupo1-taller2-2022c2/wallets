@@ -1,21 +1,39 @@
+const WalletAlreadyExistsForUser = require('../services/exceptions');
+
 function schema() {
   return {
     params: {
       type: "object",
       properties: {
-        id: {
+        user_id: {
           type: "integer",
         },
       },
     },
-    required: ["id"],
+    required: ["user_id"],
+    body: {
+      type: 'object',
+      properties: {
+        user_id: { type: 'integer' }
+      },
+    }
   };
 }
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    const body = await walletService.createWallet();
-    return reply.code(200).send(body);
+    const user_id = req.body.user_id
+    console.log(user_id)
+    try {
+      const body = await walletService.createWallet(user_id);
+      return reply.code(200).send(body);
+    } catch (e) {
+      if (e instanceof WalletAlreadyExistsForUser) {
+        return reply.code(400).send("Error: Wallet already created for this user_id");
+      } else {
+        throw e; // devuelve internal server error
+      }
+    }
   };
 }
 
