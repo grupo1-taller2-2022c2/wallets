@@ -15,9 +15,12 @@ fastify.register(require('fastify-swagger'), {
   },
 })
 
+const mongo_url = process.env.MONGODB_URL || 'mongodb+srv://admin:grupo1@fiuberwalletsdev.qy29k8l.mongodb.net/?retryWrites=true&w=majority'
+const mongo_db_name = process.env.MONGODB_NAME || 'fiuber'
+
 // Connect fastify to mongoose
 mongoose
-  .connect('mongodb+srv://admin:grupo1@fiuberwalletsdev.qy29k8l.mongodb.net/?retryWrites=true&w=majority', {dbName: 'fiuber'})
+  .connect(mongo_url, {dbName: mongo_db_name})
   .then(() => {
   console.log('Connected to the Database.');
   })
