@@ -7,6 +7,14 @@ const mongoose = require('mongoose');
 // Require the framework and instantiate it
 const fastify = require("fastify")({ logger: true });
 
+fastify.register(require('fastify-swagger'), {
+  exposeRoute: true,
+  routePrefix: '/docs',
+  swagger: {
+    info: { title: 'Wallets' },
+  },
+})
+
 // Connect fastify to mongoose
 mongoose
   .connect('mongodb+srv://admin:grupo1@fiuberwalletsdev.qy29k8l.mongodb.net/?retryWrites=true&w=majority', {dbName: 'fiuber'})
