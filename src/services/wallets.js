@@ -2,7 +2,6 @@ const ethers = require("ethers");
 const _config = require("../config")
 const { findWalletByUserId, insertWallet, findAllWallets } = require("../cruds/walletCruds");
 const WalletAlreadyExistsForUser = require("./exceptions");
-const accounts = [];
 
 const getDeployerWallet =
   ({ config }) =>
@@ -18,7 +17,7 @@ const createWallet =
   async (user_id) => {
     //chequeamos que no haya ya una wallet con ese user_id
     const existing_wallet = await findWalletByUserId(user_id)
-    if (existing_wallet.length != 0){
+    if (existing_wallet != null){
       throw new WalletAlreadyExistsForUser
     }
 
@@ -26,10 +25,6 @@ const createWallet =
     // This may break in some environments, keep an eye on it
     const wallet = ethers.Wallet.createRandom().connect(provider);
     const created_wallet = insertWallet(user_id, wallet.address, wallet.privateKey)
-    accounts.push({
-      address: wallet.address,
-      privateKey: wallet.privateKey,
-    });
     return created_wallet
   };
 

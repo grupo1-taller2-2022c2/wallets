@@ -1,9 +1,5 @@
 const WalletDB = require("../models/Wallet")
 
-// const parseQueryToJson = async (query) => {
-//     return query[0]._doc
-// }
-
 const parseQueriesToJson = async (queries) => {
     return queries.map(query => query._doc)
 }
@@ -14,8 +10,8 @@ const findAllWallets = async () => {
 }
 
 const findWalletByUserId = async (user_id) => {
-    let query = await WalletDB.findOne({user_id: user_id}).exec()
-    return query._doc
+    let wallet_wrap = await WalletDB.findOne({user_id: user_id}).exec()
+    return wallet_wrap == null ? null : wallet_wrap._doc
 }
 
 const insertWallet = async (user_id, address, private_key) => {
