@@ -2,20 +2,12 @@ const WalletAlreadyExistsForUser = require('../services/exceptions');
 
 function schema() {
   return {
-    params: {
-      type: "object",
-      properties: {
-        user_id: {
-          type: "integer",
-        },
-      },
-    },
-    required: ["user_id"],
     body: {
       type: 'object',
       properties: {
         user_id: { type: 'integer' }
       },
+      required: ["user_id"],
     }
   };
 }

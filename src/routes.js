@@ -5,6 +5,8 @@ const createDeposit = require("./handlers/createDepositHandler");
 const getDeposit = require("./handlers/getDepositHandler");
 const createTransfer = require("./handlers/createTransferHandler");
 const withdrawFundsFromWallet = require("./handlers/withdrawFundsFromWalletHandler")
+const getSystemWallet = require("./handlers/getSystemWalletHandler")
+const transferFromSystemWallet = require("./handlers/transferFromSystemWalletHandler")
 
 function getWalletDataRoute({ services, config }) {
   return {
@@ -70,4 +72,22 @@ function createTransferRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute, createTransferRoute, withdrawFundsFromWalletRoute];
+function getSystemWalletRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/wallets/system",
+    schema: getSystemWallet.schema(config),
+    handler: getSystemWallet.handler({ config, ...services }),
+  };
+}
+
+function transferFromSystemWalletRoute({ services, config }) {
+  return {
+    method: "POST",
+    url: "/transfers/system",
+    schema: transferFromSystemWallet.schema(config),
+    handler: transferFromSystemWallet.handler({ config, ...services }),
+  };
+}
+
+module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute, createTransferRoute, withdrawFundsFromWalletRoute, getSystemWalletRoute, transferFromSystemWalletRoute];
