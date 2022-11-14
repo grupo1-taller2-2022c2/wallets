@@ -21,7 +21,7 @@ function handler({ walletService }) {
       return reply.code(200).send(body);
     } catch (e) {
       if (e instanceof WalletAlreadyExistsForUser) {
-        return reply.code(400).send("Error: Wallet already created for this user_id");
+        return reply.code(409).send("Error: Wallet already created for this user_id");
       } else {
         throw e; // devuelve internal server error
       }
