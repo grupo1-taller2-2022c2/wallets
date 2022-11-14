@@ -1,23 +1,19 @@
 function schema() {
   return {
-    params: {
-      type: "object",
+    body: {
+      type: 'object',
       properties: {
-        senderUserId: {
-          type: "integer",
-        },
-        amountInEthers: {
-          type: "string",
-        },
+        sender_user_id: { type: 'integer' },
+        amount_in_ethers: { type: 'string' }
       },
-    },
-    required: ["senderUserId", "amountInEthers"],
+      required: ["sender_user_id", "amount_in_ethers"],
+    }
   };
 }
 
 function handler({ contractInteraction, walletService }) {
   return async function (req) {
-    return contractInteraction.deposit(await walletService.getWallet(req.body.senderUserId), req.body.amountInEthers);
+    return contractInteraction.deposit(await walletService.getWallet(req.body.sender_user_id), req.body.amount_in_ethers);
   };
 }
 

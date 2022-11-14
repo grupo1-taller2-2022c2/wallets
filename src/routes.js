@@ -90,4 +90,14 @@ function transferFromSystemWalletRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute, createTransferRoute, withdrawFundsFromWalletRoute, getSystemWalletRoute, transferFromSystemWalletRoute];
+module.exports = [
+  getWalletDataRoute, 
+  getWalletsDataRoute, 
+  createWalletRoute, 
+  // createDepositRoute, 
+  // getDepositRoute, 
+  createTransferRoute, 
+  withdrawFundsFromWalletRoute, 
+  getSystemWalletRoute, 
+  transferFromSystemWalletRoute
+];

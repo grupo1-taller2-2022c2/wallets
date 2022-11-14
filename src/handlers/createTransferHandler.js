@@ -1,22 +1,16 @@
 function schema() {
-    return {
-      params: {
-        type: "object",
-        properties: {
-          passenger_user_id: {
-            type: "integer",
-          },
-          driver_user_id: {
-            type: "integer",
-          },
-          amount_in_ethers: {
-            type: "string",
-          },
-        },
+  return {
+    body: {
+      type: 'object',
+      properties: {
+        passenger_user_id: { type: "integer" },
+        driver_user_id: { type: "integer" },
+        amount_in_ethers: { type: "string" },
       },
       required: ["passenger_user_id", "driver_user_id", "amount_in_ethers"],
-    };
-  }
+    }
+  };
+}
   
   function handler({ contractInteraction, walletService }) {
     return async function (req) {

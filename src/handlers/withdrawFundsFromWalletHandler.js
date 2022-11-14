@@ -1,20 +1,22 @@
 function schema() {
     return {
+      body: {
+        type: 'object',
+        properties: {
+          user_external_wallet_address: { type: "string" },
+          amount_in_ethers: { type: "string" },
+        },
+        required: ["user_external_wallet_address", "amount_in_ethers"],
+      },
       params: {
         type: "object",
         properties: {
-          user_external_wallet_address: {
-            type: "string",
-          },
           user_id: {
             type: "integer",
           },
-          amount_in_ethers: {
-            type: "string",
-          },
         },
       },
-      required: ["user_external_wallet_address", "user_id", "amount_in_ethers"],
+      required: ["user_id"],
     };
   }
   
