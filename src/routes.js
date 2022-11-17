@@ -7,6 +7,7 @@ const createTransfer = require("./handlers/createTransferHandler");
 const withdrawFundsFromWallet = require("./handlers/withdrawFundsFromWalletHandler")
 const getSystemWallet = require("./handlers/getSystemWalletHandler")
 const transferFromSystemWallet = require("./handlers/transferFromSystemWalletHandler")
+const resetDatabase = require("./handlers/resetDatabaseHandler")
 
 function getWalletDataRoute({ services, config }) {
   return {
@@ -90,6 +91,15 @@ function transferFromSystemWalletRoute({ services, config }) {
   };
 }
 
+function resetDatabaseRoute({ services, config }) {
+  return {
+    method: "DELETE",
+    url: "/reset_db",
+    schema: resetDatabase.schema(config),
+    handler: resetDatabase.handler({ config, ...services }),
+  };
+}
+
 module.exports = [
   getWalletDataRoute, 
   getWalletsDataRoute, 
@@ -99,5 +109,6 @@ module.exports = [
   createTransferRoute, 
   withdrawFundsFromWalletRoute, 
   getSystemWalletRoute, 
-  transferFromSystemWalletRoute
+  transferFromSystemWalletRoute,
+  resetDatabaseRoute
 ];

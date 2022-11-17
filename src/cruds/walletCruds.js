@@ -24,8 +24,19 @@ const insertWallet = async (user_id, address, private_key) => {
     return inserted_wallet._doc
 }
 
+const deleteAddedWallets = async () => {
+    await WalletDB.deleteMany({user_id: {$gte: 6}}).then(function(){
+        console.log("Database reset"); // Success
+        return 0
+    }).catch(function(error){
+        console.log(error); // Failure
+        return -1
+    });
+}
+
 module.exports = {
     findAllWallets,
     findWalletByUserId,
-    insertWallet
+    insertWallet,
+    deleteAddedWallets
 }
