@@ -1,6 +1,7 @@
-# BasicPayments
+[![Tests](https://github.com/grupo1-taller2-2022c2/wallets/actions/workflows/test.yml/badge.svg)](https://github.com/grupo1-taller2-2022c2/wallets/actions/workflows/deploy.yml)
+[![Deployment](https://github.com/grupo1-taller2-2022c2/wallets/actions/workflows/deploy.yml/badge.svg)](https://github.com/grupo1-taller2-2022c2/wallets/actions/workflows/deploy.yml)
 
-Smart contract and basic service to solve payments in the Taller de Programacion 2' projects.
+# wallets
 
 ## Installation
 
