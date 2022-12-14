@@ -23,7 +23,7 @@ function schema() {
   function handler({ contractInteraction, walletService }) {
     return async function (req) {
       const user_internal_wallet = await walletService.getWallet(req.params.user_id)
-      return contractInteraction.transfer(user_internal_wallet, req.body.user_external_wallet_address, walletService.getDeployerWallet(), req.body.amount_in_ethers);
+      return contractInteraction.transferWithoutCommission(user_internal_wallet, req.body.user_external_wallet_address, walletService.getDeployerWallet(), req.body.amount_in_ethers);
     };
   }
   
