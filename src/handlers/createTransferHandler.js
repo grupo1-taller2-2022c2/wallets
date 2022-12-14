@@ -16,7 +16,7 @@ function schema() {
     return async function (req) {
       const sender_wallet = await walletService.getWallet(req.body.passenger_user_id)
       const receiver_wallet = await walletService.getWallet(req.body.driver_user_id)
-      return contractInteraction.transfer(sender_wallet, receiver_wallet.address, walletService.getDeployerWallet(), req.body.amount_in_ethers);
+      return contractInteraction.transfer(sender_wallet, receiver_wallet.address, await walletService.getDeployerWallet(), req.body.amount_in_ethers);
     };
   }
   

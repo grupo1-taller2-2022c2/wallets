@@ -17,7 +17,7 @@ function schema() {
       // return contractInteraction.sendPaymentFromSystemWallet(walletService.getDeployerWallet(), 
       //                                                       receiver_wallet.address, 
       //                                                       req.body.amount_in_ethers)
-      const system_wallet = walletService.getDeployerWallet()
+      const system_wallet = await walletService.getDeployerWallet()
       return contractInteraction.transferWithoutCommission(system_wallet, receiver_wallet.address, system_wallet, req.body.amount_in_ethers)
     };
   }

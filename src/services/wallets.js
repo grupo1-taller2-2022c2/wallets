@@ -5,9 +5,10 @@ const WalletAlreadyExistsForUser = require("./exceptions");
 
 const getDeployerWallet =
   ({ config }) =>
-  () => {
+  async () => {
     const provider = new ethers.providers.AlchemyProvider(config.network, process.env.ALCHEMY_API_KEY);
     const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
+    wallet["balance"] = await getBalance(wallet)
     console.log("Deployer wallet" + wallet.address);
     return wallet;
   };
@@ -31,7 +32,7 @@ const createWallet =
 const getWalletsData = () => async () => {
   let users_wallets  = await findAllWallets();
   for (let user_wallet of users_wallets){
-    user_wallet["balance"] = await getBalance(user_wallet.user_id)
+    user_wallet["balance"] = await getBalance(user_wallet)
   }
   return users_wallets
 };
@@ -39,7 +40,7 @@ const getWalletsData = () => async () => {
 const getWalletData = () => async (user_id) => {
   let user_wallet = await findWalletByUserId(user_id);
   // A lo que viene de la DB le agregamos el balance
-  user_wallet["balance"] = await getBalance(user_id)
+  user_wallet["balance"] = await getBalance(user_wallet)
   return user_wallet
 };
 
@@ -52,10 +53,9 @@ const getWallet =
   };
 
 const getBalance = 
-  async (user_id) => {
-    const user_wallet = await findWalletByUserId(user_id)
+  async (wallet) => {
     const provider = new ethers.providers.AlchemyProvider(_config.network, process.env.ALCHEMY_API_KEY);
-    const balanceInWei = await provider.getBalance(user_wallet.address)
+    const balanceInWei = await provider.getBalance(wallet.address)
     const balanceInEth = ethers.utils.formatEther(balanceInWei)
     return balanceInEth
 };
