@@ -183,7 +183,6 @@ const transfer =
   ({ config }) =>
   async (senderWallet, receiverWalletAddress, system_wallet, amountToSend) => {
     const basicPayments_sender = await getContract(config, senderWallet);
-    const amountToSend =  amountToSend.toFixed(8);
     const deposit_to_sc_tx = await basicPayments_sender.deposit({
       value: await ethers.utils.parseEther(amountToSend).toHexString(),
     });
