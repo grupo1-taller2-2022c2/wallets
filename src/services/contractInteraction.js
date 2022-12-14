@@ -115,8 +115,8 @@ const transfer =
       },
     );
     console.log("Deposit made in smart contract. Now sending payment from smart contract -being the system the owner- to receiver")
-    const amountToReceiver = (parseFloat(amountToSend) * (1 - commissionPercentage)).toString()
-    const commission = (parseFloat(amountToSend) * (commissionPercentage)).toString()
+    const amountToReceiver = (parseFloat(amountToSend) * (1 - commissionPercentage)).toFixed(8).toString()
+    const commission = (parseFloat(amountToSend) * (commissionPercentage)).toFixed(8).toString()
     console.log("amount to receiver: " + amountToReceiver)
     console.log("commission: " + commission)
 
@@ -183,6 +183,7 @@ const transfer =
   ({ config }) =>
   async (senderWallet, receiverWalletAddress, system_wallet, amountToSend) => {
     const basicPayments_sender = await getContract(config, senderWallet);
+    const amountToSend =  amountToSend.toFixed(8);
     const deposit_to_sc_tx = await basicPayments_sender.deposit({
       value: await ethers.utils.parseEther(amountToSend).toHexString(),
     });
